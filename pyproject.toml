@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "basement-closet"
+version = "0.1.0"
+description = "Computer part inventory system"
+authors = ["Daniel Bluhm <dbluhm@pm.me>"]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+fastapi = "^0.70.0"
+uvicorn = "^0.15.0"
+motor = "^2.5.1"
+
+[tool.poetry.dev-dependencies]
+black = "^21.9b0"
+flake8 = "^4.0.1"
+pre-commit = "^2.15.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
