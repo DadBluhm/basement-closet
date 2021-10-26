@@ -14,3 +14,9 @@ This project is written in Python.
 - Docker ([Windows install instructions here](https://docs.docker.com/desktop/windows/install/))
 
 It may simplify installation to use Windows Subsystem for Linux.
+
+## Devcontainer Setup
+
+1. Install the extension Remote - Containers
+2. Open the command pallete (Ctrl+Shift+P) and search for "Open in Container"
+3. You should see a terminal open up
