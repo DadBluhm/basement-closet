@@ -1,3 +1,22 @@
-# FILL ME IN
+# Data Model
 
-Insert info about what sort of data we want to store here!
+## Inventory Table 
+Columns
+- InvID
+- InvName 
+- InvType 
+- InvDescription 
+- Age 
+- Shelf
+- Bin
+- Location
+
+## Inventory Comments Table
+Columns
+- InvID 
+- CommentID
+- EntryDate 
+- EnteredBy
+- Comment
+
+
