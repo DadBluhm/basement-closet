@@ -6,4 +6,5 @@ RUN mkdir basement_closet; touch basement_closet/__init__.py
 RUN poetry install
 COPY ./basement_closet ./basement_closet
 
-ENTRYPOINT ["/bin/sh", "-c", "poetry run python -m basement_closet \"$@\"", "--"]
+ENTRYPOINT ["/bin/sh", "-c", "poetry run uvicorn basement_closet:app \"$@\"", "--"]
+CMD ["--port", "8080"]
