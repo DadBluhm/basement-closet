@@ -25,8 +25,10 @@ def create(item: Item):
 
 
 @app.get("/inventory")
-def retrieve():
-    return {"Hello": "World"}
+def retrieve(id: Optional[str] = None):
+    if id:
+        return {"results": [data_store[id]]}
+    return {"results": data_store.values()}
 
 
 @app.delete("/inventory/{item_id}")
