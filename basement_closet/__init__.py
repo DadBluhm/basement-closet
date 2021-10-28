@@ -1,11 +1,11 @@
 from pydantic import BaseModel, Field
 from uuid import uuid4
-from typing import Optional
+from typing import MutableMapping, Optional
 
 from fastapi import FastAPI
 
 app = FastAPI()
-data_store = {}
+data_store: MutableMapping[str, "Item"] = {}
 
 class Item(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid4()))
@@ -28,7 +28,7 @@ def create(item: Item):
 def retrieve(id: Optional[str] = None):
     if id:
         return {"results": [data_store[id]]}
-    return {"results": data_store.values()}
+    return {"results": list(data_store.values())}
 
 
 @app.delete("/inventory/{item_id}")
