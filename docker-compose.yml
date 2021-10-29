@@ -1,0 +1,16 @@
+version: "3"
+services:
+  basement-closet:
+    image: basement-closet
+    build: 
+      context: .
+    environment:
+      DBHOST:
+      DBPORT:
+      DBUSER:
+      DBPWD:
+  database:
+    image: mariadb:10.5
+    environment:
+      MYSQL_ROOT_PASSWORD: mamamaria
+      
