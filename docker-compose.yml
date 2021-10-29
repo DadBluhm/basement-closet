@@ -9,6 +9,7 @@ services:
       DBPORT: 3306
       DBUSER: root
       DBPWD: mamamaria
+      DBNAME: basement-closet
   database:
     image: mariadb:10.5
     environment:
