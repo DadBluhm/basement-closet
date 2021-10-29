@@ -3,6 +3,8 @@ from uuid import uuid4
 from typing import MutableMapping, Optional
 
 from fastapi import FastAPI
+from asyncmy import connect
+from os import getenv
 
 app = FastAPI()
 data_store: MutableMapping[str, "Item"] = {}
@@ -17,6 +19,16 @@ class Item(BaseModel):
     bin: Optional[str] = None
     location: Optional[str] = None
 
+@app.on_event("startup")
+async def startup_event():
+    connection=await connect(
+        user=getenv("DBUSER"),
+        password=getenv("DBPWD"),
+        host=getenv("DBHOST"),
+        port=int(getenv("DBPORT")),
+        database=getenv("DBNAME")
+    )
+    print("Connected to database")
 
 @app.put("/inventory")
 def create(item: Item):
