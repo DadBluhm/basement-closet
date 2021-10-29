@@ -5,12 +5,12 @@ services:
     build: 
       context: .
     environment:
-      DBHOST:
-      DBPORT:
-      DBUSER:
-      DBPWD:
+      DBHOST: database
+      DBPORT: 3306
+      DBUSER: root
+      DBPWD: mamamaria
   database:
     image: mariadb:10.5
     environment:
       MYSQL_ROOT_PASSWORD: mamamaria
-      
+      MYSQL_DATABASE: basement-closet
