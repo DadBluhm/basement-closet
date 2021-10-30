@@ -10,9 +10,9 @@ python = "^3.7"
 fastapi = "^0.70.0"
 uvicorn = "^0.15.0"
 pydantic = "^1.8.2"
-aiomysql = "^0.0.21"
 SQLAlchemy = "^1.4.26"
 databases = {version = "^0.5.3", extras = ["mysql"]}
+mariadb = "^1.0.8"
 
 [tool.poetry.dev-dependencies]
 black = "^21.9b0"

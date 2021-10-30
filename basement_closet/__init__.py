@@ -10,14 +10,14 @@ from os import getenv
 app = FastAPI()
 data_store: MutableMapping[str, "Item"] = {}
 
-user=getenv("DBUSER")
-password=getenv("DBPWD")
-host=getenv("DBHOST")
-port=int(getenv("DBPORT", "3306"))
-dbname=getenv("DBNAME")
+user = getenv("DBUSER")
+password = getenv("DBPWD")
+host = getenv("DBHOST")
+port = int(getenv("DBPORT", "3306"))
+dbname = getenv("DBNAME")
 
-DATABASE_URL=f"mysql://{user}:{password}@{host}:{port}/{dbname}"
-database=databases.Database(DATABASE_URL)
+DATABASE_URL = f"mysql+mariadbconnector://{user}:{password}@{host}:{port}/{dbname}"
+database = databases.Database(DATABASE_URL)
 
 metadata = sqlalchemy.MetaData()
 
@@ -25,29 +25,28 @@ inventory = sqlalchemy.Table(
     "inventory",
     metadata,
     sqlalchemy.Column("invID", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("invName", sqlalchemy.String),
-    sqlalchemy.Column("invType", sqlalchemy.String),
-    sqlalchemy.Column("invDescription", sqlalchemy.String),
-    sqlalchemy.Column("age", sqlalchemy.String),
-    sqlalchemy.Column("shelf", sqlalchemy.String),
-    sqlalchemy.Column("bin", sqlalchemy.String),
-    sqlalchemy.Column("location", sqlalchemy.String)
+    sqlalchemy.Column("invName", sqlalchemy.String(30)),
+    sqlalchemy.Column("invType", sqlalchemy.String(30)),
+    sqlalchemy.Column("invDescription", sqlalchemy.String(512)),
+    sqlalchemy.Column("age", sqlalchemy.String(30)),
+    sqlalchemy.Column("shelf", sqlalchemy.String(30)),
+    sqlalchemy.Column("bin", sqlalchemy.String(30)),
+    sqlalchemy.Column("location", sqlalchemy.String(30)),
 )
 
 inventory_comments = sqlalchemy.Table(
     "inventory_comments",
     metadata,
     sqlalchemy.Column("invID", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("commentID", sqlalchemy.String),
+    sqlalchemy.Column("commentID", sqlalchemy.String(30)),
     sqlalchemy.Column("entryDate", sqlalchemy.DateTime),
-    sqlalchemy.Column("enteredBy", sqlalchemy.String),
-    sqlalchemy.Column("comment", sqlalchemy.String)
+    sqlalchemy.Column("enteredBy", sqlalchemy.String(30)),
+    sqlalchemy.Column("comment", sqlalchemy.String(512)),
 )
 
-engine = sqlalchemy.create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
-)
+engine = sqlalchemy.create_engine(DATABASE_URL)
 metadata.create_all(engine, checkfirst=True)
+
 
 class Item(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid4()))
@@ -59,15 +58,18 @@ class Item(BaseModel):
     bin: Optional[str] = None
     location: Optional[str] = None
 
+
 @app.on_event("startup")
 async def startup_event():
     await database.connect()
 
     print("Connected to database")
 
+
 @app.on_event("shutdown")
 async def shutdown():
     await database.disconnect()
+
 
 @app.put("/inventory")
 def create(item: Item):
