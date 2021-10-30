@@ -10,8 +10,16 @@ services:
       DBUSER: root
       DBPWD: mamamaria
       DBNAME: basement-closet
+
+      WAIT_BEFORE_HOSTS: 3
+      WAIT_HOSTS: database:3306
+      WAIT_HOSTS_TIMEOUT: 30
+      WAIT_SLEEP_INTERVAL: 1
+      WAIT_HOST_CONNECT_TIMEOUT: 10
   database:
     image: mariadb:10.5
     environment:
       MYSQL_ROOT_PASSWORD: mamamaria
-      MYSQL_DATABASE: basement-closet
+      MARIADB_DATABASE: basement-closet
+    ports:
+      - 3306:3306
