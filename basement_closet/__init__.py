@@ -34,6 +34,7 @@ inventory = sqlalchemy.Table(
     sqlalchemy.Column("shelf", sqlalchemy.String(30)),
     sqlalchemy.Column("bin", sqlalchemy.String(30)),
     sqlalchemy.Column("location", sqlalchemy.String(30)),
+    sqlalchemy.Column("useful", sqlalchemy.Boolean),
 )
 
 inventory_comments = sqlalchemy.Table(
@@ -60,6 +61,7 @@ class ItemIn(BaseModel):
     shelf: Optional[str] = None
     bin: Optional[str] = None
     location: Optional[str] = None
+    useful: bool = False
 
 
 class Item(ItemIn):
