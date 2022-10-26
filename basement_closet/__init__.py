@@ -42,7 +42,7 @@ inventory_comments = sqlalchemy.Table(
     metadata,
     sqlalchemy.Column("commentID", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column(
-        "invID", sqlalchemy.Integer, ForeignKey("inventory.invID"), primary_key=True
+        "invID", sqlalchemy.Integer, ForeignKey("inventory.invID")
     ),
     sqlalchemy.Column("entryDate", sqlalchemy.DateTime),
     sqlalchemy.Column("enteredBy", sqlalchemy.String(30)),
@@ -144,5 +144,7 @@ async def get_comments(item_id: str):
 
 
 @app.delete("/inventory/comment/{comment_id}")
-async def delete_comment():
-    return {"Hello": "World"}
+async def delete_comment(comment_id: str):
+    query = inventory_comments.delete(inventory_comments.c.commentID == comment_id)
+    await database.execute(query)
+    return {"success": True}
