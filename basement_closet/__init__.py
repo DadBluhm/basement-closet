@@ -141,12 +141,16 @@ async def comment(item_id: str, comment: CommentIn):
         ),
     }
 
+@app.get("/inventory/comment/stats")
+async def get_stats():
+    with engine.connect() as conn:
+        query = sqlalchemy.select([sqlalchemy.func.count(inventory_comments.c.commentID)])  
+        return {"Comments": conn.scalar(query)}
 
 @app.get("/inventory/comment/{item_id}")
 async def get_comments(item_id: str):
     query = inventory_comments.select(inventory_comments.c.invID == item_id)
     return {"results": await database.fetch_all(query)}
-
 
 @app.delete("/inventory/comment/{comment_id}")
 async def delete_comment(comment_id: str):
