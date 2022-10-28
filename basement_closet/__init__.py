@@ -95,6 +95,11 @@ async def retrieve(id: Optional[str] = None):
         query = inventory.select()
     return {"results": await database.fetch_all(query)}
 
+@app.get("/inventory/stats")
+async def get_stats():
+    with engine.connect() as conn:
+        query = sqlalchemy.select([sqlalchemy.func.count(inventory.c.invID)])  
+        return {"Inv Items": conn.scalar(query)}
 
 @app.get("/inventory/{item_id}")
 async def get_item(item_id: str):
